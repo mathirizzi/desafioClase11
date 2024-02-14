@@ -1,0 +1,15 @@
+<div>
+    <center>
+    <h1>Productos</h1>
+    {{#each products}}
+<p><strong>Producto:</strong> {{this.title}} - <strong>Precio:</strong> $ {{this.price}} - <button>Agregar al carrito</button></p>
+    {{/each}}
+    {{#if hasPrevPage}}
+    <a href="products?pageQuery={{prevPage}}">Pagina anterior</a>
+    {{/if}}
+    <label>{{page}}</label>
+    {{#if hasNextPage}}
+    <a href="products?pageQuery={{nextPage}}">Pagina siguiente</a>
+    {{/if}}
+    </center>
+</div>

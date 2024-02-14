@@ -1,0 +1,61 @@
+<div>
+<h1>Lista de productos en tiempo real  </h1>
+
+<div>
+    <form id="formularioProducto">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description" required></textarea>
+        <br>
+        
+        <label for="price">Precio:</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+        <br>
+        
+        <label for="thumbnail">Thumbnail:</label>
+        <input type="text" id="thumbnail" name="thumbnail" required>
+        <br>
+        
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" required>
+        <br>
+        
+        <label for="code">Código:</label>
+        <input type="text" id="code" name="code" required>
+        <br>
+    
+
+        <button id="addProductButton" type="button">Crear Producto</button>
+    </form>
+
+</div>
+
+<br>
+
+<div>
+    <input id="deleteProductInput" type="text" placeholder="Ingrese el ID del producto">
+<button id="deleteProductButton">
+    Borrar Producto
+    </button>
+</div>
+<br>
+{{#each productList}}
+<div style="border: 1px solid #333;">
+ <p>Titulo: {{this.title}} </p>
+  <p>Descripcion: {{this.description}} </p>
+  <p>Precio: {{this.price}} </p>
+  <p>Imagen: {{this.thumbnail}} </p>
+  <p>Stock: {{this.stock}} </p>
+  <p>Codigo: {{this.code}} </p>
+  <p>ID: {{this.id}} </p>
+</div>
+<br>
+{{/each}}
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/index.js"></script>

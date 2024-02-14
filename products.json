@@ -1,0 +1,38 @@
+[
+  {
+    "title": "helado",
+    "description": "crema helada",
+    "price": 2500,
+    "thumbnail": "imagen",
+    "stock": 100,
+    "code": "A1",
+    "id": 1
+  },
+  {
+    "title": "2",
+    "description": "harina",
+    "price": 3500,
+    "thumbnail": "imagen",
+    "stock": 100,
+    "code": "A1",
+    "id": 2
+  },
+  {
+    "title": "3",
+    "description": "harina",
+    "price": 3500,
+    "thumbnail": "imagen",
+    "stock": 100,
+    "code": "A1",
+    "id": 3
+  },
+  {
+    "title": "2",
+    "description": "2",
+    "price": "2",
+    "thumbnail": "2",
+    "stock": "2",
+    "code": "2",
+    "id": 4
+  }
+]
