@@ -5,13 +5,15 @@ import { Server } from "socket.io";
 import connectBD from "./config/connectDB.js";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
-import FileStore from "session-file-store";
-import MongoStore from "connect-mongo";
 
 import appRouter from "./routers/index.js";
 
 import ProductManager from "./ProductManager.js";
+
 import session from "express-session";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
+import MongoStore from "connect-mongo";
 
 //-------------------------SERVIDOR------------------------------//
 const app = express();
@@ -34,37 +36,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 app.use(cookieParser());
 
-/*
-const fileStore = FileStore(session);
-app.use;
-session({
-  store: new fileStore({
-    path: "./sessions",
-    ttl: 100,
-    retries: 0,
-  }),
-  secret: "secretCoder",
-  resave: true,
-  saveUninitialized: true,
-});
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://mathiasrizzi:RKeOEkVxlSxjZn0E@cursocorder.geg6fej.mongodb.net/ecommerce",
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTOpology: true,
+      },
+      ttl: 15,
+    }),
+    secret: "secretCoder",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-*/
-
-app.use(session({
-  store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://mathiasrizzi:RKeOEkVxlSxjZn0E@cursocorder.geg6fej.mongodb.net/ecommerce',
-    mongoOptions: {
-    },
-    ttl: 15
-  }),
-  secret: 'secretCoder',
-  resave: true,
-  saveUninitialized: true
-}))
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(appRouter);
 
-//socket lado servidor
+//-------------------------SOCKET SERVIDOR------------------------------//
+
 const products = new ProductManager("products.json");
 const productList = await products.getProducts();
 
