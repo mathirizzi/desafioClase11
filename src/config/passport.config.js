@@ -2,6 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import UserManager from "../UserManager.js";
 import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
+import GithubStrategy from "passport-github2";
 
 const LocalStrategy = local.Strategy;
 const sessionsService = new UserManager();
@@ -74,5 +75,37 @@ const initializePassport = () => {
     done(null, user);
   });
 };
+
+passport.use(
+  "github",
+  new GithubStrategy(
+    {
+      clientID: "Iv1.a5f3d912476df1b1",
+      clientSecret: "447e44e76275f8dbb93f115f16ee2e171289542f",
+      callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      console.log("profile:", profile);
+      try {
+        let user = await sessionsService.getUserBy({email: profile._json.email})
+        if (!user) {
+          let newUser = {
+            first_name: profile._json.name,
+            last_name: profile._json.name,
+            email: profile._json.email,
+            password: ""
+          }
+
+          let result = await sessionsService.createUser(newUser)
+          return done(null, result)
+        }
+
+        return done(null, user)
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
 
 export default initializePassport;
